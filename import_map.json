@@ -1,0 +1,13 @@
+{
+  "imports": {
+    "enzyme": "https://jspm.dev/enzyme",
+    "enzyme-adapter-preact-pure": "https://jspm.dev/enzyme-adapter-preact-pure",
+    "preact": "https://esm.sh/preact@10.11.3",
+    "preact/hooks": "https://esm.sh/preact@10.11.3/hooks",
+    "preact/jsx-runtime": "https://esm.sh/preact@10.11.3/jsx-runtime",
+    "rxjs": "https://esm.sh/rxjs@7.5.7",
+    "std/testing/asserts": "https://deno.land/std@0.167.0/testing/asserts.ts",
+    "std/testing/bdd": "https://deno.land/std@0.167.0/testing/bdd.ts",
+    "std/testing/mock": "https://deno.land/std@0.167.0/testing/mock.ts"
+  }
+}

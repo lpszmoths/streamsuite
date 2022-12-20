@@ -1,0 +1,8 @@
+@font-face {
+  font-family: 'Belleza';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Belleza Regular'),
+    local('Belleza-Regular'),
+    url(./belleza.ttf) format('truetype');
+}

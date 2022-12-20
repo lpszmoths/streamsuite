@@ -1,0 +1,22 @@
+{
+  "name": "strms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "deno bundle client/src/index.tsx client/dist/client.js",
+    "server": "deno run --allow-net --allow-env --allow-read server/index.tsx",
+    "server:test": "deno test server --allow-env --allow-read",
+    "test": "npm run server:test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpszmoths/strms.git"
+  },
+  "author": "Moths",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lpszmoths/strms/issues"
+  },
+  "homepage": "https://github.com/lpszmoths/strms#readme"
+}

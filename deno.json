@@ -1,0 +1,44 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "strict": true,
+    "lib": [
+      "deno.ns",
+      "dom"
+    ],
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "noImplicitOverride": true
+  },
+  "importMap": "./import_map.json",
+  "lint": {
+    "files": {
+      "include": ["src/"],
+      "exclude": ["src/testdata/"]
+    },
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": ["no-extra-semi", "no-unused-vars"]
+    }
+  },
+  "fmt": {
+    "files": {
+      "include": ["src/"],
+      "exclude": ["src/testdata/"]
+    },
+    "options": {
+      "useTabs": false,
+      "lineWidth": 60,
+      "indentWidth": 2,
+      "singleQuote": true,
+      "proseWrap": "preserve"
+    }
+  },
+  "test": {
+    "files": {
+      "include": ["src/"],
+      "exclude": ["src/testdata/"]
+    }
+  }
+}
