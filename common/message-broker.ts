@@ -1,4 +1,4 @@
-import { Observable, Subscriber, Subject } from 'https://esm.sh/rxjs'
+import { Subject } from 'rxjs'
 
 export interface IMessageBroker {
   createChannel(channelId: string): void
@@ -12,15 +12,26 @@ export interface IMessageBroker {
     channelId: string,
     listener: (msg: T) => void
   ): void
+
+  subscribeToAllChannels(
+    listener: ({channelId, msg}: IAllChannelsMessage) => void
+  ): void
+}
+
+export interface IAllChannelsMessage {
+  channelId: string,
+  msg: any,
 }
 
 export default class MessageBroker implements IMessageBroker {
+  protected allChannels: Subject<IAllChannelsMessage>
   protected channels: {
     [key: string]: Subject<any>
   }
 
   constructor() {
     this.channels = {}
+    this.allChannels = new Subject<IAllChannelsMessage>
   }
 
   private assertValidChannelId(
@@ -44,7 +55,11 @@ export default class MessageBroker implements IMessageBroker {
   ) {
     this.assertValidChannelId(channelId)
     this.channels[channelId].next(msg)
-    console.log(`Message emitted to channel ${channelId}`)
+    this.allChannels.next({
+      channelId,
+      msg,
+    })
+    console.log(`Message emitted to channel ${channelId}: ${JSON.stringify(msg)}`)
   }
 
   subscribeToChannel<T>(
@@ -56,5 +71,14 @@ export default class MessageBroker implements IMessageBroker {
       next: listener as (msg: any) => void
     })
     console.log(`New subscriber on channel ${channelId}`)
+  }
+
+  subscribeToAllChannels(
+    listener: ({channelId, msg}: IAllChannelsMessage) => void
+  ) {
+    this.allChannels.subscribe({
+      next: listener
+    })
+    console.log(`New subscriber on all channels`)
   }
 }

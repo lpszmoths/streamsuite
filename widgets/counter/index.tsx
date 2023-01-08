@@ -5,7 +5,7 @@ import MessageBroker from '../../common/message-broker.ts'
 import Widget, { WidgetMode } from '../../common/widget.tsx'
 
 export interface CounterWidgetMessage {
-  increment: 1 | -1
+  newCount: number
 }
 
 export interface CounterWidgetComponentProps {
@@ -60,7 +60,7 @@ export function CounterWidgetControlPanel(
       <button
         onClick={() => {
           sendMessage({
-            increment: -1,
+            newCount: count - 1,
           })
         }}
       >-</button>
@@ -70,7 +70,7 @@ export function CounterWidgetControlPanel(
       <button
         onClick={() => {
           sendMessage({
-            increment: 1,
+            newCount: count + 1,
           })
         }}
       >+</button>
@@ -89,16 +89,19 @@ extends Widget<CounterWidgetMessage>
 
     this.count = 0
     this.countSubject = new Subject()
-    setInterval(() => {
-      console.log('tick')
-      this.emitMessage({
-        increment: 1
-      })
-    }, 1000)
+
+    if (mode === 'server') {
+      setInterval(() => {
+        console.log('tick')
+        this.emitMessage({
+          newCount: this.count + 1
+        })
+      }, 5000)
+    }
   }
 
   onMessage(message: CounterWidgetMessage): void {
-    this.count += message.increment
+    this.count = message.newCount
     this.countSubject.next(this.count)
   }
 

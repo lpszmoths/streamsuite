@@ -20,7 +20,7 @@ export async function handleClientWidgetRequest(
   const urlParts = url.pathname.split('/')
   const widgetId = urlParts[2]
 
-  if (!serverState.widgetManager.isWidgetInitialized(widgetId)) {
+  if (!serverState.isWidgetInitialized(widgetId)) {
     return handleError(
       new WidgetNotFoundError(), {
       widgetId,

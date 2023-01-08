@@ -12,7 +12,7 @@ export async function handleRequest(
   console.log(`${req.method} ${req.url}`)
 
   if (req.headers.get("upgrade") == "websocket") {
-    return await handleUpgradeWebsocketRequest(req)
+    return await handleUpgradeWebsocketRequest(req, serverState)
   }
 
   const url = new URL(req.url)

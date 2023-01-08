@@ -27,7 +27,14 @@ export default class Client extends EventTarget {
     this.ws.addEventListener(
       'message',
       (ev: MessageEvent) => {
-        const data: any = ev.data
+        let data: any
+
+        try {
+          data = JSON.parse(ev.data)
+        } catch(e) {
+          throw new Error(`Unable to parse remote payload`, ev.data)
+        }
+
         if (typeof data != 'object') {
           throw new Error(`Invalid message; expected an object, got a ${typeof data}`)
         }
@@ -37,11 +44,10 @@ export default class Client extends EventTarget {
         }
 
         const channelId: string = data.channelId
-        delete data.channelId
-        const msg = data
+        const msg = data.msg
 
         this.messageBroker.emitToChannel(
-          data.channelId,
+          channelId,
           msg
         )
       }
@@ -51,8 +57,8 @@ export default class Client extends EventTarget {
     this.dispatchEvent(new ClientReadyEvent())
   }
 
-  get isLoading(): boolean {
-    return this._isLoading
+  getEnabledWidgets(): string[] {
+    return Object.keys(WIDGETS)
   }
 
   getPort(): number {
@@ -78,6 +84,10 @@ export default class Client extends EventTarget {
       'client',
       this.messageBroker
     )
+  }
+
+  get isLoading(): boolean {
+    return this._isLoading
   }
 
   isWidgetInitialized(widgetId: string): boolean {

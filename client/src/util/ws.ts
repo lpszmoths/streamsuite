@@ -1,5 +1,3 @@
-
-  
 export function connectToWS(port: number): Promise<WebSocket> {
   return new Promise(
     (
@@ -12,9 +10,10 @@ export function connectToWS(port: number): Promise<WebSocket> {
       const ws = new WebSocket(wsUrl)
       let isOpen: boolean = false
       ws.addEventListener('message', (ev: MessageEvent) => {
+        console.log(`WS message received`, ev.data)
       })
       ws.addEventListener('close', (ev: Event) => {
-        console.log('closed')
+        console.log('WS connection closed')
       })
       ws.addEventListener('error', (ev: Event) => {
         console.error(
@@ -29,7 +28,7 @@ export function connectToWS(port: number): Promise<WebSocket> {
         }
       })
       ws.addEventListener('open', (ev: Event) => {
-        console.log('connected')
+        console.log('WS connected')
         isOpen = true
         resolve(ws)
       })
