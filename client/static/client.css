@@ -1,4 +1,30 @@
+@import url("./skeleton/css/normalize.css");
+@import url("./skeleton/css/skeleton.css");
+@import url("./fonts/belleza.css");
+
+:root {
+  --dim-bg-color: #fff;
+}
+
 body {
+  background-color: #f1f1f1;
+  font-family: 'Belleza', sans-serif;
+}
+
+.card {
+  background-color: var(--dim-bg-color);
+  border: solid 1px var(--border-color);
+  border-radius: 4px;
+}
+
+.card > * {
+  padding: 1rem 1.5rem;
+}
+
+.card > .no-gutters {
   padding: 0;
-  margin: 0;
+}
+
+.card > * + * {
+  border-top: var(--border-color);
 }

@@ -9,9 +9,6 @@ export function connectToWS(port: number): Promise<WebSocket> {
       )
       const ws = new WebSocket(wsUrl)
       let isOpen: boolean = false
-      ws.addEventListener('message', (ev: MessageEvent) => {
-        console.log(`WS message received`, ev.data)
-      })
       ws.addEventListener('close', (ev: Event) => {
         console.log('WS connection closed')
       })

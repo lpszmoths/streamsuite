@@ -3,17 +3,31 @@ import { Subject } from 'rxjs'
 export interface IMessageBroker {
   createChannel(channelId: string): void
 
-  emitToChannel<T>(
+  receiveOnChannel<T>(
     channelId: string,
     msg: T
   ): void
 
-  subscribeToChannel<T>(
+  sendToChannel<T>(
+    channelId: string,
+    msg: T
+  ): void
+
+  onChannelMessageReceived<T>(
     channelId: string,
     listener: (msg: T) => void
   ): void
 
-  subscribeToAllChannels(
+  onChannelMessageSent<T>(
+    channelId: string,
+    listener: (msg: T) => void
+  ): void
+
+  onMessageReceived(
+    listener: ({channelId, msg}: IAllChannelsMessage) => void
+  ): void
+
+  onMessageSent(
     listener: ({channelId, msg}: IAllChannelsMessage) => void
   ): void
 }
@@ -24,20 +38,31 @@ export interface IAllChannelsMessage {
 }
 
 export default class MessageBroker implements IMessageBroker {
-  protected allChannels: Subject<IAllChannelsMessage>
-  protected channels: {
+  protected allIncomingChannels: Subject<IAllChannelsMessage>
+  protected allOutgoingChannels: Subject<IAllChannelsMessage>
+  protected incomingChannels: {
+    [key: string]: Subject<any>
+  }
+  protected outgoingChannels: {
     [key: string]: Subject<any>
   }
 
   constructor() {
-    this.channels = {}
-    this.allChannels = new Subject<IAllChannelsMessage>
+    this.incomingChannels = {}
+    this.outgoingChannels = {}
+    this.allIncomingChannels = new Subject<IAllChannelsMessage>
+    this.allOutgoingChannels = new Subject<IAllChannelsMessage>
   }
 
   private assertValidChannelId(
     channelId: string
   ) {
-    if (!(channelId in this.channels)) {
+    if (!(channelId in this.incomingChannels)) {
+      throw new Error(
+        `Unknown channel ${channelId}`
+      )
+    }
+    if (!(channelId in this.outgoingChannels)) {
       throw new Error(
         `Unknown channel ${channelId}`
       )
@@ -45,40 +70,74 @@ export default class MessageBroker implements IMessageBroker {
   }
 
   createChannel(channelId: string) {
-    this.channels[channelId] = new Subject<any>
+    this.incomingChannels[channelId] = new Subject<any>
+    this.outgoingChannels[channelId] = new Subject<any>
     console.log(`Created channel ${channelId}`)
   }
 
-  emitToChannel<T>(
+  receiveOnChannel<T>(
     channelId: string,
     msg: T
   ) {
     this.assertValidChannelId(channelId)
-    this.channels[channelId].next(msg)
-    this.allChannels.next({
+    this.incomingChannels[channelId].next(msg)
+    this.allIncomingChannels.next({
       channelId,
       msg,
     })
-    console.log(`Message emitted to channel ${channelId}: ${JSON.stringify(msg)}`)
+    console.log(`Message received on channel ${channelId}: ${JSON.stringify(msg)}`)
   }
 
-  subscribeToChannel<T>(
+  sendToChannel<T>(
+    channelId: string,
+    msg: T
+  ) {
+    this.assertValidChannelId(channelId)
+    this.outgoingChannels[channelId].next(msg)
+    this.allOutgoingChannels.next({
+      channelId,
+      msg,
+    })
+    console.log(`Message sent to channel ${channelId}: ${JSON.stringify(msg)}`)
+  }
+
+  onChannelMessageReceived<T>(
     channelId: string,
     listener: (msg: T) => void
   ) {
     this.assertValidChannelId(channelId)
-    this.channels[channelId].subscribe({
+    this.incomingChannels[channelId].subscribe({
       next: listener as (msg: any) => void
     })
-    console.log(`New subscriber on channel ${channelId}`)
+    console.log(`New subscriber on incoming channel ${channelId}`)
   }
 
-  subscribeToAllChannels(
+  onChannelMessageSent<T>(
+    channelId: string,
+    listener: (msg: T) => void
+  ) {
+    this.assertValidChannelId(channelId)
+    this.outgoingChannels[channelId].subscribe({
+      next: listener as (msg: any) => void
+    })
+    console.log(`New subscriber on outgoing channel ${channelId}`)
+  }
+
+  onMessageReceived(
     listener: ({channelId, msg}: IAllChannelsMessage) => void
   ) {
-    this.allChannels.subscribe({
+    this.allIncomingChannels.subscribe({
       next: listener
     })
-    console.log(`New subscriber on all channels`)
+    console.log(`New subscriber on all incoming channels`)
+  }
+
+  onMessageSent(
+    listener: ({channelId, msg}: IAllChannelsMessage) => void
+  ) {
+    this.allOutgoingChannels.subscribe({
+      next: listener
+    })
+    console.log(`New subscriber on all outgoing channels`)
   }
 }

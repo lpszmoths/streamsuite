@@ -3,6 +3,7 @@ import WIDGETS from "../../widgets/index.ts";
 import { ClientManager } from "./client-manager.ts";
 import { WidgetManager } from "./widget-manager.ts";
 import { generateId } from "../util/id-generation.ts";
+import Widget from "../../common/widget.tsx";
 
 export default class ServerState {
   protected clientManager: ClientManager
@@ -14,7 +15,15 @@ export default class ServerState {
     this.messageBroker = new MessageBroker()
     this.widgetManager = new WidgetManager()
 
-    this.messageBroker.subscribeToAllChannels(
+    // this.messageBroker.onMessageReceived(
+    //   ({channelId, msg}: IAllChannelsMessage) => {
+    //     if (this.widgetManager.isWidgetInitialized(channelId)) {
+    //       const widget: Widget = this.widgetManager.getWidget(channelId)
+    //       widget.onMessage(msg)
+    //     }
+    //   }
+    // )
+    this.messageBroker.onMessageSent(
       (payload: IAllChannelsMessage) => {
         console.log(`Broadcasting to all clients`)
         this.clientManager.forEachClient(
@@ -47,6 +56,12 @@ export default class ServerState {
 
   isWidgetInitialized(widgetId: string): boolean {
     return this.widgetManager.isWidgetInitialized(widgetId)
+  }
+
+  receiveMessage({channelId, msg}: IAllChannelsMessage) {
+    if (this.widgetManager.isWidgetInitialized(channelId)) {
+      this.messageBroker.receiveOnChannel(channelId, msg)
+    }
   }
 
   removeClient(id: string) {

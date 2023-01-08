@@ -1,3 +1,4 @@
+import { IAllChannelsMessage } from "../../common/message-broker.ts"
 import ServerState from "../singletons/server-state.ts"
 import { generateId } from "../util/id-generation.ts"
 
@@ -16,7 +17,13 @@ export async function handleUpgradeWebsocketRequest(req: Request, serverState: S
   })
 
   ws.addEventListener('message', (ev: MessageEvent) => {
-    console.log(`WS: message: ${JSON.stringify(ev.data)}`)
+    try {
+      const genericMsg: IAllChannelsMessage = JSON.parse(ev.data)
+      console.log(`WS: message: `, genericMsg)
+      serverState.receiveMessage(genericMsg)
+    } catch(e) {
+      throw e
+    }
   })
 
   ws.addEventListener('error', (ev: Event | ErrorEvent) => {

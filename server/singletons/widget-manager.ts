@@ -9,6 +9,10 @@ export class WidgetManager {
     this.widgets = {}
   }
 
+  getWidget(widgetId: string): Widget {
+    return this.widgets[widgetId]
+  }
+
   initWidget(widgetId: string, messageBroker: MessageBroker) {
     console.log(`Initializing widget ${widgetId}`)
     this.widgets[widgetId] = WIDGETS[widgetId](

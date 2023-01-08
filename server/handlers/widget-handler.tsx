@@ -9,6 +9,7 @@ import Widget from "../../common/widget.tsx"
 import { IWidgetClass } from "../../common/widget-dictionary.ts"
 import ServerState from "../singletons/server-state.ts"
 import WidgetPage from "../pages/widget.tsx"
+import { buildHtmlDoc } from "../util/html-builder.ts"
 
 export async function handleClientWidgetRequest(
   req: Request,
@@ -27,12 +28,13 @@ export async function handleClientWidgetRequest(
     })
   }
 
-  const html = renderToString(<WidgetPage widgetId={widgetId} />);
+  const htmlString = renderToString(<WidgetPage widgetId={widgetId} />)
+  const html = buildHtmlDoc('Widget', htmlString)
   return new Response(html, {
     headers: {
       "content-type": "text/html",
     },
-  });
+  })
   
   //return new Response(null, { status: 501 });
 }

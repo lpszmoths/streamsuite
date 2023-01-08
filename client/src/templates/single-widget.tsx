@@ -6,9 +6,10 @@ import type Client from '../singletons/client.ts'
 export interface SingleWidgetProps {
   client: Client
   widgetId: string
+  controlPanelMode?: boolean
 }
 
-export default function SingleWidget({client, widgetId}: SingleWidgetProps) {
+export default function SingleWidget({client, widgetId, controlPanelMode}: SingleWidgetProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [widget, setWidget] = useState<Widget | null>(null)
 
@@ -24,7 +25,11 @@ export default function SingleWidget({client, widgetId}: SingleWidgetProps) {
   } else if(!widget) {
     return <div>Error loading widget</div>
   } else {
-    const clientWidget: ComponentChild = widget.createClientWidget()
+    const clientWidget: ComponentChild = (
+      controlPanelMode ?
+      widget.createControlWidget() :
+      widget.createClientWidget()
+    )
     return (
       <div>{clientWidget}</div>
     )

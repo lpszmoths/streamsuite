@@ -4,6 +4,8 @@ import ServerState from "../singletons/server-state.ts"
 import { handleStaticContent } from './static-content-handler.tsx'
 import { handleUpgradeWebsocketRequest } from "./upgrade-websocket-handler.tsx"
 import { handleClientWidgetRequest } from "./widget-handler.tsx"
+import { buildHtmlDoc } from '../util/html-builder.ts'
+import { APP_NAME } from "../../common/constants.ts"
 
 export async function handleRequest(
   req: Request,
@@ -26,31 +28,15 @@ export async function handleRequest(
     ) {
       return await handleStaticContent(req)
     }
-    // else if (urlParts[1] === 'widgets') {
-    //   return await handleClientWidgetRequest(req, serverState)
-    // }
     else {
-      const html = renderToString(<Index serverState={serverState} />);
+      const htmlString = renderToString(<Index serverState={serverState} />);
+      const html = buildHtmlDoc(APP_NAME, htmlString)
       return new Response(html, {
         headers: {
           "content-type": "text/html",
         },
       });
     }
-    // if (url.pathname === '/') {
-    //   const html = renderToString(<Index serverState={serverState} />);
-    //   return new Response(html, {
-    //     headers: {
-    //       "content-type": "text/html",
-    //     },
-    //   });
-    // }
-    // else if (urlParts[1] === 'widgets') {
-    //   return await handleClientWidgetRequest(req, serverState)
-    // }
-    // else {
-    //   return await handleStaticContent(req)
-    // }
   }
   
   return new Response(null, { status: 501 });

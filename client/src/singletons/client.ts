@@ -1,5 +1,5 @@
 import { ComponentChild, render } from 'preact'
-import MessageBroker from '../../../common/message-broker.ts'
+import MessageBroker, { IAllChannelsMessage } from '../../../common/message-broker.ts'
 import Widget from '../../../common/widget.tsx'
 import WIDGETS from '../../../widgets/index.ts'
 import ClientReadyEvent from '../events/client-ready-event.ts'
@@ -45,11 +45,18 @@ export default class Client extends EventTarget {
 
         const channelId: string = data.channelId
         const msg = data.msg
+        console.log(`Received message of type ${typeof msg}:`, msg)
 
-        this.messageBroker.emitToChannel(
+        this.messageBroker.receiveOnChannel(
           channelId,
           msg
         )
+      }
+    )
+
+    this.messageBroker.onMessageSent(
+      (msg: IAllChannelsMessage) => {
+        this.ws!.send(JSON.stringify(msg))
       }
     )
 

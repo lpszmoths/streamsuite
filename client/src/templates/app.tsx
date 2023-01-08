@@ -2,6 +2,7 @@ import { useEffect, useState } from 'preact/hooks'
 import Route, { RouteParams } from '../components/route.ts'
 import { CLIENT_READY_EVENT } from '../events/client-ready-event.ts'
 import type Client from '../singletons/client.ts'
+import Dashboard from './dashboard.tsx'
 import SingleWidget from './single-widget.tsx'
 
 export interface AppProps {
@@ -35,7 +36,9 @@ export default function App({client}: AppProps) {
         pattern='/'
         render={(_params: RouteParams) => {
           return (
-            <div>Hello world</div>
+            <Dashboard
+              client={client}
+            />
           )
         }}
       />
@@ -51,6 +54,8 @@ export default function App({client}: AppProps) {
           )
         }}
       />
+
+      <link rel='stylesheet' href='/static/client.css'></link>
 
     </>
   )

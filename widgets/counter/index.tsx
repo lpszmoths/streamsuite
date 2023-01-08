@@ -3,126 +3,60 @@ import { useEffect, useState } from "preact/hooks"
 import { Subject } from "rxjs"
 import MessageBroker from '../../common/message-broker.ts'
 import Widget, { WidgetMode } from '../../common/widget.tsx'
-
-export interface CounterWidgetMessage {
-  newCount: number
-}
-
-export interface CounterWidgetComponentProps {
-  initialCount: number
-  countSubject: Subject<number>
-}
-
-export interface CounterWidgetControlPanelProps extends CounterWidgetComponentProps {
-  sendMessage: (msg: CounterWidgetMessage) => void
-}
-
-export function CounterWidgetComponent(
-  {
-    initialCount,
-    countSubject
-  }: CounterWidgetComponentProps
-) {
-  const [count, setCount] = useState(initialCount)
-
-  useEffect(() => {
-    countSubject.subscribe((newCount: number) => {
-      setCount(newCount)
-    })
-  }, [])
-
-  return (
-    <div className='counter'>
-      <span className='count'>
-        {count}
-      </span>
-    </div>
-  )
-}
-
-export function CounterWidgetControlPanel(
-  {
-    initialCount,
-    countSubject,
-    sendMessage
-  }: CounterWidgetControlPanelProps
-) {
-  const [count, setCount] = useState(initialCount)
-
-  useEffect(() => {
-    countSubject.subscribe((newCount: number) => {
-      setCount(newCount)
-    })
-  }, [])
-
-  return (
-    <div className='counter'>
-      <button
-        onClick={() => {
-          sendMessage({
-            newCount: count - 1,
-          })
-        }}
-      >-</button>
-      <span className='count'>
-        {count}
-      </span>
-      <button
-        onClick={() => {
-          sendMessage({
-            newCount: count + 1,
-          })
-        }}
-      >+</button>
-    </div>
-  )
-}
+import { CounterWidgetControlPanel } from './counter-panel.tsx'
+import { CounterWidgetComponent } from './counter-widget.tsx'
+import { CounterWidgetAction, CounterWidgetState } from './counter-common.ts'
 
 export class CounterWidget
-extends Widget<CounterWidgetMessage>
+extends Widget<
+  CounterWidgetState,
+  CounterWidgetAction
+>
 {
-  protected count: number;
-  protected countSubject: Subject<number>;
-
   constructor(id: string, mode: WidgetMode, messageBroker: MessageBroker) {
-    super(id, mode, messageBroker)
+    super(id, mode, messageBroker, { count: 0 })
 
-    this.count = 0
-    this.countSubject = new Subject()
+    // ask the server to send an updated count
+    // this.sendMessage({})
 
-    if (mode === 'server') {
-      setInterval(() => {
-        console.log('tick')
-        this.emitMessage({
-          newCount: this.count + 1
-        })
-      }, 5000)
-    }
+    // debug
+    // if (mode === 'server') {
+    //   setInterval(() => {
+    //     console.log('tick')
+    //     this.setState({
+    //       count: this.state.count + 1
+    //     })
+    //   }, 5000)
+    // }
   }
 
-  onMessage(message: CounterWidgetMessage): void {
-    this.count = message.newCount
-    this.countSubject.next(this.count)
+  onAction({actionId, change}: CounterWidgetAction): void {
+    console.log(`counter action ${actionId} received`, change)
+    if (typeof change === 'number') {
+      this.setState({
+        count: this.state.count + change
+      })
+    }
   }
 
   createClientWidget(): ComponentChild {
     return (
       <CounterWidgetComponent
-        initialCount={this.count}
-        countSubject={this.countSubject}
+        initialCount={this.state.count}
+        stateObserver={this.stateObserver}
       />
     )
   }
 
   createControlWidget(): ComponentChild {
-    const sendMessage = (msg: CounterWidgetMessage) => {
-      this.emitMessage(msg)
+    const sendAction = (msg: CounterWidgetAction) => {
+      this.sendAction(msg)
     }
     return (
       <CounterWidgetControlPanel
-        initialCount={this.count}
-        countSubject={this.countSubject}
-        sendMessage={sendMessage}
+        initialCount={this.state.count}
+        stateObserver={this.stateObserver}
+        sendAction={sendAction}
       />
     )
   }
