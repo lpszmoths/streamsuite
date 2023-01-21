@@ -1,6 +1,4 @@
 import { ComponentChild, render } from 'preact'
-import { useEffect, useState } from "preact/hooks"
-import { Subject } from "rxjs"
 import MessageBroker from '../../common/message-broker.ts'
 import Widget, { WidgetMode } from '../../common/widget.tsx'
 import { CounterWidgetControlPanel } from './counter-panel.tsx'
@@ -14,20 +12,7 @@ extends Widget<
 >
 {
   constructor(id: string, mode: WidgetMode, messageBroker: MessageBroker) {
-    super(id, mode, messageBroker, { count: 0 })
-
-    // ask the server to send an updated count
-    // this.sendMessage({})
-
-    // debug
-    // if (mode === 'server') {
-    //   setInterval(() => {
-    //     console.log('tick')
-    //     this.setState({
-    //       count: this.state.count + 1
-    //     })
-    //   }, 5000)
-    // }
+    super(id, 'Counter', mode, messageBroker, { count: 0 })
   }
 
   onAction({actionId, change}: CounterWidgetAction): void {

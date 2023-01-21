@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'preact/hooks'
-import { CounterWidgetComponentProps } from './counter-widget.tsx'
-import { CounterWidgetAction, CounterWidgetState } from './counter-common.ts'
+import { CounterWidgetComponent, CounterWidgetComponentProps } from './counter-widget.tsx'
+import { CounterWidgetAction } from './counter-common.ts'
 
 export interface CounterWidgetControlPanelProps extends CounterWidgetComponentProps {
   sendAction: (msg: CounterWidgetAction) => void
@@ -13,39 +12,30 @@ export function CounterWidgetControlPanel(
     sendAction
   }: CounterWidgetControlPanelProps
 ) {
-  const [count, setCount] = useState(initialCount)
-
-  useEffect(() => {
-    stateObserver.subscribe(
-      (newState: Partial<CounterWidgetState>) => {
-        if (typeof newState.count !== 'undefined') {
-          setCount(newState.count)
-        }
-      }
-    )
-  }, [])
-
   return (
     <div className='counter'>
-      <button
-        onClick={() => {
-          sendAction({
-            actionId: 'changeCount',
-            change: -1,
-          })
-        }}
-      >-</button>
-      <span className='count'>
-        {count}
-      </span>
-      <button
-        onClick={() => {
-          sendAction({
-            actionId: 'changeCount',
-            change: 1,
-          })
-        }}
-      >+</button>
+      <CounterWidgetComponent
+        initialCount={initialCount}
+        stateObserver={stateObserver}
+      />
+      <div>
+        <button
+          onClick={() => {
+            sendAction({
+              actionId: 'changeCount',
+              change: -1,
+            })
+          }}
+        >-</button>
+        <button
+          onClick={() => {
+            sendAction({
+              actionId: 'changeCount',
+              change: 1,
+            })
+          }}
+        >+</button>
+      </div>
     </div>
   )
 }

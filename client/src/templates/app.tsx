@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks'
-import Route, { RouteParams } from '../components/route.ts'
+import Route, { RouteParams } from '../components/route.tsx'
 import { CLIENT_READY_EVENT } from '../events/client-ready-event.ts'
 import type Client from '../singletons/client.ts'
 import Dashboard from './dashboard.tsx'

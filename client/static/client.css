@@ -3,12 +3,39 @@
 @import url("./fonts/belleza.css");
 
 :root {
-  --dim-bg-color: #fff;
+  --dim-bg-color: #eceff4;
 }
 
 body {
-  background-color: #f1f1f1;
   font-family: 'Belleza', sans-serif;
+}
+
+nav {
+  margin-bottom: 2.5rem;
+  border: solid 1px var(--border-color);
+}
+
+nav > ul,
+nav > ul > li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav > ul > li + li {
+  border-top: solid 1px var(--border-color);
+}
+
+nav > ul > li > a {
+  display: block;
+  padding: 0.25rem 30px;
+  text-decoration: none;
+}
+
+nav > ul > li > a:hover,
+nav > ul > li > a:active,
+nav > ul > li > a:focus {
+  background-color: var(--link-bg-color);
 }
 
 .card {
@@ -25,6 +52,109 @@ body {
   padding: 0;
 }
 
+.card > .no-gutters > :last-child {
+  margin-bottom: 0;
+}
+
 .card > * + * {
-  border-top: var(--border-color);
+  border-top: solid 1px var(--border-color);
+}
+
+.flex-stretch-list {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.flex-stretch-list > * {
+  margin-top: 0;
+  margin-bottom: 1px;
+}
+
+.flex-stretch-list.horizontal {
+  flex-direction: row;
+}
+
+.flex-stretch-list.horizontal > * {
+  margin-left: 0;
+  margin-right: 1px;
+  margin-top: initial;
+  margin-bottom: initial;
+}
+
+.flex-stretch-list-full {
+  flex: 1 1 0;
+}
+
+.dashboard {
+  background-color: #fff;
+}
+
+.dashboard-widget-section {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.dashboard-widget-section > * {
+  flex: 1 1 0;
+}
+
+.dashboard-widget-section > * + * {
+  margin-left: 3rem;
+}
+
+.dashboard-widget-section + .dashboard-widget-section {
+  border-top: solid 1px var(--border-color);
+}
+
+.dashboard-nav-container {
+  border-bottom: solid 1px var(--border-color);
+  background-color: var(--dim-bg-color);
+  padding: 0.75em 1.5em;
+}
+
+.dashboard-widget-control-panel-container {
+  padding: 0.75rem 1.5rem;
+}
+
+.dashboard-widget-client-container {
+  background-color: var(--dim-bg-color);
+  border: none;
+}
+
+.dashboard-widget-client-container {
+}
+
+@media screen and (min-width: 768px) {
+  .dashboard {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .dashboard > * {
+    flex: 1 1 0;
+    margin: 0;
+    border-bottom: none;
+    border-right: solid 1px var(--border-color);
+  }
+
+  .dashboard-nav-container {
+    flex: 0 0 auto;
+    width: 16rem;
+    padding: 1.5rem 3rem;
+  }
+
+  .dashboard-nav-container nav {
+    border-left: none;
+    border-right: none;
+    margin: 0 -3rem;
+  }
+
+  .dashboard-widget-control-panel-container {
+    padding: 1.5em 0 1.5em 3rem;
+  }
+
+  .dashboard-widget-client-container {
+  }
 }

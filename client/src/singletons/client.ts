@@ -3,6 +3,7 @@ import MessageBroker, { IAllChannelsMessage } from '../../../common/message-brok
 import Widget from '../../../common/widget.tsx'
 import WIDGETS from '../../../widgets/index.ts'
 import ClientReadyEvent from '../events/client-ready-event.ts'
+import { loadCssFile } from '../util/dom.ts'
 import { getEnv } from '../util/env.ts'
 import { connectToWS } from '../util/ws.ts'
 
@@ -91,6 +92,8 @@ export default class Client extends EventTarget {
       'client',
       this.messageBroker
     )
+    
+    loadCssFile(`/static/widget-assets/${widgetId}.css`)
   }
 
   get isLoading(): boolean {

@@ -1,0 +1,48 @@
+body {
+  background-color: rgba(0, 0, 0, 0);
+  margin: 0px auto;
+  overflow: hidden;
+}
+
+.pomodoro-progress-indicator.horizontal { display: none; }
+.pomodoro .pomodoro-progress-indicator.vertical {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vmin;
+  height: 100vmin;
+  background: red;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 22vmin 16vmin 14vmin;
+  box-sizing: border-box;
+}
+
+.pomodoro .pomodoro-progress-indicator-bar.vertical {
+  background-size: 100vmin;
+  background-position-x: center;
+  background-position-y: calc(100% + 14vmin);
+  background-color: transparent;
+}
+
+.pomodoro-time-remaining,
+.pomodoro-time-total {
+  display: none;
+}
+
+.pomodoro .pomodoro-progress-indicator.vertical {
+  background: transparent url('./timer-bg.png');
+  background-size: contain;
+}
+
+.pomodoro .pomodoro-progress-indicator-bar.vertical {
+  background-image: url('./timer-fg-pomodoro.png');
+}
+
+.pomodoro[data-state='break'] .pomodoro-progress-indicator-bar.vertical {
+  background-image: url('./timer-fg-break.png');
+}

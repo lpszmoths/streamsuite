@@ -1,0 +1,28 @@
+.pomodoro-progress-indicator.vertical{
+  position: relative;
+  width: 1rem;
+  height: 4rem;
+}
+
+.pomodoro-progress-indicator.vertical,
+.pomodoro-progress-indicator-bar.vertical {
+  min-width: 1rem;
+}
+
+.pomodoro-progress-indicator.horizontal{
+  position: relative;
+  width: 100%;
+}
+
+.pomodoro-progress-indicator.horizontal,
+.pomodoro-progress-indicator-bar.horizontal {
+  min-height: 1rem;
+}
+
+.pomodoro-progress-indicator {
+  background: #aaa;
+}
+
+.pomodoro-progress-indicator-bar {
+  background: #555;
+}

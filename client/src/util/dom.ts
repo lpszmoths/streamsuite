@@ -11,3 +11,18 @@ export function docReady(fn: () => any) {
     )
   }
 }
+
+export function loadCssFile(uri: string): void {
+  const links = document.getElementsByTagName('link')
+  for (let i = 0; i < links.length; i++) {
+    const link: HTMLLinkElement = links[i]
+    if (link.href === uri) {
+      return
+    }
+  }
+
+  const newLink: HTMLLinkElement = document.createElement('link')
+  newLink.rel = 'stylesheet'
+  newLink.href = uri
+  document.body.appendChild(newLink)
+}

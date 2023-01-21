@@ -37,18 +37,34 @@
   --button-color-hover: #333;
   --link-color: #1EAEDB;
   --link-color-hover: #0FA0CE;
-  --button-border-color: #bbb;
-  --button-border-color-hover: #888;
+  --link-bg-color: #d2f0f9;
+  --button-border-color: #bbbbbb;
+  --button-border-color-hover: #888888;
   --primary-button-color: #fff;
   --primary-button-color-hover: #fff;
-  --primary-bg-color: #33C3F0;
-  --primary-bg-color-hover: #33C3F0;
-  --primary-border-color: #33C3F0;
-  --primary-border-color-hover: #33C3F0;
+  --primary-bg-color: #33c3f0;
+  --primary-bg-color-hover: #92dff7;
+  --primary-border-color: #33c3f0;
+  --primary-border-color-hover: #92dff7;
   --input-bg-color: #fff;
   --input-border-color: #D1D1D1;
   --input-border-color-focus: #33C3F0;
   --dim-bg-color: #f1f1f1;
+
+  --positive-button-color: #21251d;
+  --positive-bg-color: #a3be8c;
+  --positive-border-color: #a3be8c;
+  --positive-bg-color-hover: #719353;
+  --positive-border-color-hover: #719353;
+
+  --negative-button-color: hsl(0, 12%, 13%);
+  --negative-bg-color: #bf616a;
+  --negative-border-color: #bf616a;
+  --negative-bg-color-hover: #dca8ad;
+  --negative-border-color-hover: #dca8ad;
+
+  --disabled-button-color: #888888;
+  --disabled-border-color: #bbbbbb;
 }
 
 
@@ -228,21 +244,17 @@ button:focus,
 input[type="submit"]:focus,
 input[type="reset"]:focus,
 input[type="button"]:focus {
-  color: #333;
   color: var(--button-color-hover);
-  border-color: #888;
   border-color: var(--button-border-color-hover);
   outline: 0; }
+
 .button.button-primary,
 button.button-primary,
 input[type="submit"].button-primary,
 input[type="reset"].button-primary,
 input[type="button"].button-primary {
-  color: #FFF;
   color: var(--primary-button-color);
-  background-color: #33C3F0;
   background-color: var(--primary-bg-color);
-  border-color: #33C3F0;
   border-color: var(--primary-border-color); }
 .button.button-primary:hover,
 button.button-primary:hover,
@@ -254,12 +266,68 @@ button.button-primary:focus,
 input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
-  color: #FFF;
   color: var(--primary-button-color);
-  background-color: #1EAEDB;
   background-color: var(--primary-bg-color-hover);
-  border-color: #1EAEDB;
   border-color: var(--primary-border-color-hover); }
+
+.button.button-positive,
+button.button-positive,
+input[type="submit"].button-positive,
+input[type="reset"].button-positive,
+input[type="button"].button-positive {
+  color: var(--positive-button-color);
+  background-color: var(--positive-bg-color);
+  border-color: var(--positive-border-color); }
+.button.button-positive:hover,
+button.button-positive:hover,
+input[type="submit"].button-positive:hover,
+input[type="reset"].button-positive:hover,
+input[type="button"].button-positive:hover,
+.button.button-positive:focus,
+button.button-positive:focus,
+input[type="submit"].button-positive:focus,
+input[type="reset"].button-positive:focus,
+input[type="button"].button-positive:focus {
+  color: var(--positive-button-color);
+  background-color: var(--positive-bg-color-hover);
+  border-color: var(--positive-border-color-hover); }
+
+.button.button-negative,
+button.button-negative,
+input[type="submit"].button-negative,
+input[type="reset"].button-negative,
+input[type="button"].button-negative {
+  color: var(--negative-button-color);
+  background-color: var(--negative-bg-color);
+  border-color: var(--negative-border-color); }
+.button.button-negative:hover,
+button.button-negative:hover,
+input[type="submit"].button-negative:hover,
+input[type="reset"].button-negative:hover,
+input[type="button"].button-negative:hover,
+.button.button-negative:focus,
+button.button-negative:focus,
+input[type="submit"].button-negative:focus,
+input[type="reset"].button-negative:focus,
+input[type="button"].button-negative:focus {
+  color: var(--negative-button-color);
+  background-color: var(--negative-bg-color-hover);
+  border-color: var(--negative-border-color-hover); }
+
+.button:disabled,
+button:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled,
+input[type="button"]:disabled,
+.button:disabled:hover,
+button:disabled:hover,
+input[type="submit"]:disabled:hover,
+input[type="reset"]:disabled:hover,
+input[type="button"]:disabled:hover {
+  color: var(--disabled-button-color);
+  border-color: var(--disabled-border-color);
+  background-color: transparent;
+  outline: 0; }
 
 
 /* Forms
@@ -275,9 +343,7 @@ textarea,
 select {
   height: 38px;
   padding: 6px 10px; /* The 6px vertically centers text on FF, ignored by Webkit */
-  background-color: #fff;
   background-color: var(--input-bg-color);
-  border: 1px solid #D1D1D1;
   border-color: var(--input-border-color);
   border-radius: 4px;
   box-shadow: none;
