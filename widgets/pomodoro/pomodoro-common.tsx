@@ -24,7 +24,7 @@ export interface PomodoroConfiguration extends WidgetConfiguration {
 
 export enum PomodoroActionType {
   START_POMODORO = 'start-pomodoro',
-  START_BREAK = 'start-pomodoro',
+  START_BREAK = 'start-break',
   STOP = 'stop',
 }
 
