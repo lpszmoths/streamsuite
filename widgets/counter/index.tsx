@@ -3,16 +3,27 @@ import MessageBroker from '../../common/message-broker.ts'
 import Widget, { WidgetMode } from '../../common/widget.tsx'
 import { CounterWidgetControlPanel } from './counter-panel.tsx'
 import { CounterWidgetComponent } from './counter-widget.tsx'
-import { CounterWidgetAction, CounterWidgetState } from './counter-common.ts'
+import { CounterWidgetAction, CounterWidgetState, CounterWidgetConfiguration } from './counter-common.ts'
 
 export class CounterWidget
 extends Widget<
   CounterWidgetState,
+  CounterWidgetConfiguration,
   CounterWidgetAction
 >
 {
   constructor(id: string, mode: WidgetMode, messageBroker: MessageBroker) {
-    super(id, 'Counter', mode, messageBroker, { count: 0 })
+    super(
+      id,
+      'Counter',
+      mode,
+      messageBroker,
+      { count: 0 },
+      {
+        cssFiles: {},
+        imageFiles: {},
+      }
+    )
   }
 
   onAction({actionId, change}: CounterWidgetAction): void {

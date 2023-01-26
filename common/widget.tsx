@@ -19,7 +19,9 @@ extends WidgetMessage, WidgetAction {
 }
 
 export const WIDGET_UPDATE_TYPE = '_update'
-export interface WidgetUpdateMessage<StateType extends object>
+export interface WidgetUpdateMessage<
+  StateType extends WidgetState = WidgetState
+>
 extends WidgetMessage {
   type: '_update'
   newState: Partial<StateType>
@@ -31,22 +33,35 @@ extends WidgetMessage {
   type: '_staterequest'
 }
 
+export interface WidgetState {}
+
+export interface WidgetConfiguration {
+  cssFiles: { [key: string]: string }
+  imageFiles: { [key: string]: string }
+}
+
 export default abstract class Widget<
-  StateType extends object = object,
+  StateType extends WidgetState = WidgetState,
+  ConfigurationType extends WidgetConfiguration = WidgetConfiguration,
   ActionType extends WidgetAction =
   WidgetAction
 > {
   private internalState: StateType
   private internalStateObserver: Subject<Partial<StateType>>
+  private configuration: ConfigurationType
 
   constructor(
-    private id: string,
+    public readonly id: string,
+    public readonly name: string,
     private mode: WidgetMode,
     private messageBroker: MessageBroker,
-    initialState: StateType
+    initialState: StateType,
+    initialConfiguration: ConfigurationType
   ) {
     this.internalState = initialState
     this.internalStateObserver = new Subject()
+    this.configuration = initialConfiguration
+
     this.messageBroker.onChannelMessageReceived(
       this.id,
       (msg: any) => {

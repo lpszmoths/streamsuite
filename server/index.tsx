@@ -7,7 +7,7 @@ import ServerState from "./singletons/server-state.ts"
 const PORT: number = (
     Deno.env.get('PORT') &&
     parseInt(Deno.env.get('PORT')!)
-  ) || 8000
+  ) || 8007
 
 const serverState: ServerState = new ServerState()
 for (let k in WIDGETS) {

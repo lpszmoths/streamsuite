@@ -10,6 +10,8 @@ import { IWidgetClass } from "../../common/widget-dictionary.ts"
 import ServerState from "../singletons/server-state.ts"
 import WidgetPage from "../pages/widget.tsx"
 import { buildHtmlDoc } from "../util/html-builder.ts"
+import { extname } from "https://deno.land/std@0.166.0/path/mod.ts"
+import { pathToClient } from "../util/paths.ts"
 
 export async function handleClientWidgetRequest(
   req: Request,
@@ -28,7 +30,32 @@ export async function handleClientWidgetRequest(
     })
   }
 
-  const htmlString = renderToString(<WidgetPage widgetId={widgetId} />)
+  // scan for custom content
+  const customCssFiles: string[] = []
+  const widgetOverridesDir = pathToClient(`theme-overrides/${widgetId}`)
+  console.log(`overrides dir: ${widgetOverridesDir}`)
+  try {
+    const dir = await Deno.readDir(widgetOverridesDir)
+    for await (const dirEntry of dir) {
+      console.log('file found fo fum')
+      console.log(dirEntry.name)
+      if (extname(dirEntry.name)) {
+        customCssFiles.push(
+          `/theme-overrides/${widgetId}/${dirEntry.name}`
+        )
+      }
+    }
+  } catch(e) {
+    console.log(`Failed to read ${widgetOverridesDir}`, e)
+  }
+
+
+  const htmlString = renderToString(
+    <WidgetPage
+      widgetId={widgetId}
+      customCssFiles={customCssFiles}
+    />
+  )
   const html = buildHtmlDoc('Widget', htmlString)
   return new Response(html, {
     headers: {

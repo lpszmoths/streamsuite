@@ -24,9 +24,15 @@ export async function handleRequest(
   if (req.method === 'GET') {
     if (
       urlParts[1] === 'static' ||
+      urlParts[1] === 'theme-overrides' ||
       urlParts[1] === 'dist'
     ) {
       return await handleStaticContent(req)
+    }
+    else if (
+      urlParts[1] === 'widgets'
+    ) {
+      return await handleClientWidgetRequest(req, serverState)
     }
     else {
       const htmlString = renderToString(<Index serverState={serverState} />);
@@ -35,7 +41,7 @@ export async function handleRequest(
         headers: {
           "content-type": "text/html",
         },
-      });
+      })
     }
   }
   

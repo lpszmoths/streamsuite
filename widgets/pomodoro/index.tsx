@@ -1,7 +1,7 @@
 import { ComponentChild, render } from 'preact'
 import MessageBroker from '../../common/message-broker.ts'
 import Widget, { WidgetMode } from '../../common/widget.tsx'
-import { PomodoroAction, PomodoroActionType, PomodoroState } from './pomodoro-common.tsx'
+import { BG_IMG_KEY, FG_BREAK_IMG_KEY, FG_POMODORO_IMG_KEY, PomodoroAction, PomodoroActionType, PomodoroConfiguration, PomodoroState, THEME_CSS_KEY } from './pomodoro-common.tsx'
 import { PomodoroControlPanelComponent } from './pomodoro-panel.tsx'
 import { PomodoroWidgetComponent } from './pomodoro-widget.tsx'
 
@@ -11,9 +11,21 @@ const INITIAL_STATE: PomodoroState = {
   timeTotal: 25 * 60,
 }
 
+const INITIAL_CONFIGURATION: PomodoroConfiguration = {
+  cssFiles: {
+    [THEME_CSS_KEY]: '',
+  },
+  imageFiles: {
+    [BG_IMG_KEY]: '',
+    [FG_POMODORO_IMG_KEY]: '',
+    [FG_BREAK_IMG_KEY]: '',
+  }
+}
+
 export class PomodoroWidget
 extends Widget<
   PomodoroState,
+  PomodoroConfiguration,
   PomodoroAction
 >
 {
@@ -25,7 +37,8 @@ extends Widget<
       'Pomodoro timer',
       mode,
       messageBroker,
-      INITIAL_STATE
+      INITIAL_STATE,
+      INITIAL_CONFIGURATION
     )
   }
 
