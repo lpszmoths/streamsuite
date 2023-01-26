@@ -27,6 +27,8 @@ body {
   background-position-x: center;
   background-position-y: calc(100% + 14vmin);
   background-color: transparent;
+  
+  transition: height 0.666s ease-out;
 }
 
 .pomodoro-time-remaining,
@@ -45,4 +47,34 @@ body {
 
 .pomodoro[data-state='break'] .pomodoro-progress-indicator-bar.vertical {
   background-image: url('./timer-fg-break.png');
+}
+
+@keyframes six-frame-sprite {
+  0% {
+    background-position-y: 0;
+  }
+  100% {
+    background-position-y: 100%;
+  }
+}
+
+.pomodoro .pomodoro-progress-indicator:before {
+  position: absolute;
+  content: ' ';
+  width: 37.5vmin;
+  height: 25vmin;
+
+  top: 0;
+  left: calc(50% - 18.75vmin);
+  
+  background-image: url('./timer-thingy-sheet.png');
+  background-position-x: 0;
+  background-position-y: 0;
+  background-size: 100%;
+
+  animation: six-frame-sprite 1.666s steps(6, jump-none) 0s infinite;
+}
+
+.pomodoro[data-state='stopped'] .pomodoro-progress-indicator:before {
+  animation: none;
 }
