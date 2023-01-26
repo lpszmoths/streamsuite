@@ -73,6 +73,7 @@ body {
   background-size: 100%;
 
   animation: six-frame-sprite 1.666s steps(6, jump-none) 0s infinite;
+  z-index: -1;
 }
 
 .pomodoro[data-state='stopped'] .pomodoro-progress-indicator:before {
