@@ -1,13 +1,12 @@
-import { serve } from "https://deno.land/std@0.166.0/http/mod.ts"
+import { serve } from "http"
 import WIDGETS from "../widgets/index.ts"
 import { createMainRequestHandler } from "./handlers/handler-factory.ts"
 import { handleRequest } from './handlers/main-request-handler.tsx'
 import ServerState from "./singletons/server-state.ts"
+import { getHost, getPort } from "./util/env.ts"
 
-const PORT: number = (
-    Deno.env.get('PORT') &&
-    parseInt(Deno.env.get('PORT')!)
-  ) || 8007
+const HOST: string = getHost()
+const PORT: number = getPort()
 
 const serverState: ServerState = new ServerState()
 for (let k in WIDGETS) {
@@ -19,6 +18,7 @@ const mainRequestHandler = createMainRequestHandler(serverState)
 serve(
   mainRequestHandler,
   {
+    hostname: HOST,
     port: PORT,
     onListen(params: {hostname: string, port: number}) {
       const { hostname, port } = params
