@@ -1,12 +1,13 @@
-const PORT: number = (
-  Deno.env.get('PORT') &&
-  parseInt(Deno.env.get('PORT')!)
-) || 8007
+import { getHost, getPort } from '../util/env.ts'
+
+const HOST: string = getHost()
+const PORT: number = getPort()
 
 export default function ClientEnvVars() {
   return (
     <>
       <script id='env-vars'>
+        window.HOST = '{HOST}';
         window.PORT = {PORT};
       </script>
       <script src='/dist/client.js'></script>

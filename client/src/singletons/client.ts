@@ -8,6 +8,7 @@ import { getEnv } from '../util/env.ts'
 import { connectToWS } from '../util/ws.ts'
 
 export default class Client extends EventTarget {
+  protected host: string
   protected port: number
   protected messageBroker: MessageBroker
   protected ws: WebSocket | null
@@ -16,6 +17,7 @@ export default class Client extends EventTarget {
 
   constructor(protected container: HTMLElement) {
     super()
+    this.host = getEnv<string>('HOST')
     this.port = getEnv<number>('PORT')
     this.messageBroker = new MessageBroker()
     this.ws = null
@@ -24,7 +26,7 @@ export default class Client extends EventTarget {
   }
 
   async connect() {
-    this.ws = await connectToWS(this.port)
+    this.ws = await connectToWS(this.host, this.port)
     this.ws.addEventListener(
       'message',
       (ev: MessageEvent) => {
@@ -67,6 +69,10 @@ export default class Client extends EventTarget {
 
   getEnabledWidgets(): string[] {
     return Object.keys(WIDGETS)
+  }
+
+  getHost(): string {
+    return getEnv<string>('HOST')
   }
 
   getPort(): number {

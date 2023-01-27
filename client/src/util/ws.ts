@@ -1,11 +1,11 @@
-export function connectToWS(port: number): Promise<WebSocket> {
+export function connectToWS(host: string, port: number): Promise<WebSocket> {
   return new Promise(
     (
       resolve: (ws: WebSocket) => void,
       reject: (e: Error) => void
     ) => {
       const wsUrl: string = (
-        `ws://localhost:${port}`
+        `ws://${host}:${port}`
       )
       const ws = new WebSocket(wsUrl)
       let isOpen: boolean = false
