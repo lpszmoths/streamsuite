@@ -3,7 +3,7 @@ import WIDGETS from "../widgets/index.ts"
 import { createMainRequestHandler } from "./handlers/handler-factory.ts"
 import { handleRequest } from './handlers/main-request-handler.tsx'
 import ServerState from "./singletons/server-state.ts"
-import { getHost, getPort } from "./util/env.ts"
+import { getHost, getPort } from "../common/env.ts"
 
 const HOST: string = getHost()
 const PORT: number = getPort()
@@ -26,4 +26,4 @@ serve(
       console.log(`http://${hostname}:${port}`)
     }
   }
-);
+)
