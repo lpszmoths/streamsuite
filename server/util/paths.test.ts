@@ -5,7 +5,7 @@ Deno.test(
   'pathToClientDist: default',
   () => {
     const path = pathToClientDist()
-    assertEquals(path, `${Deno.cwd()}/client/dist`)
+    assertEquals(path, `${Deno.cwd()}/client`)
   }
 )
 
@@ -13,6 +13,6 @@ Deno.test(
   'pathToClientDist: /asset.js',
   () => {
     const path = pathToClientDist('/asset.js')
-    assertEquals(path, `${Deno.cwd()}/client/dist/asset.js`)
+    assertEquals(path, `${Deno.cwd()}/client/asset.js`)
   }
 )

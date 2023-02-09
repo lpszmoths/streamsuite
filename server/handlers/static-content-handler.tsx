@@ -1,5 +1,5 @@
-import { mime } from "https://deno.land/x/mimetypes@v1.0.0/mod.ts"
-import { extname } from "https://deno.land/std@0.166.0/path/mod.ts"
+import { mime } from "mimetypes"
+import { extname } from "path"
 import { pathToClient, pathToClientDist, pathToStatic } from "../util/paths.ts"
 import { handleError } from "./error-handler.tsx"
 

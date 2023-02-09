@@ -7,9 +7,11 @@
     "build": "mkdir -p client/dist && deno bundle client/src/index.tsx client/dist/client.js",
     "build2": "deno run --allow-net --allow-env --allow-read ./build-client.ts client/src/index.tsx client/dist/client.js",
     "bot": "deno run --allow-net --allow-env --allow-read ./bot/index.ts",
+    "bot:test": "deno test bot --allow-env --allow-read",
+    "common:test": "deno test common --allow-env --allow-read",
     "server": "deno run --allow-net --allow-env --allow-read server/index.tsx",
     "server:test": "deno test server --allow-env --allow-read",
-    "test": "npm run server:test"
+    "test": "npm run common:test && npm run server:test"
   },
   "repository": {
     "type": "git",
