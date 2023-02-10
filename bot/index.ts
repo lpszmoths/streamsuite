@@ -1,5 +1,7 @@
-import Bot, { BotOptions } from './bot.ts'
+import Bot from './bot.ts'
 import { getEnvString } from '../common/env.ts'
+import { BotOptions } from "./bot-types.ts";
+import CommandsPlugin from './commands/commands-plugin.ts';
 
 const TWITCH_USERNAME = getEnvString('TWITCH_USERNAME')
 const TWITCH_OAUTH_TOKEN = getEnvString('TWITCH_OAUTH_TOKEN')
@@ -28,10 +30,13 @@ if (enableTwitch) {
   }
 }
 
-const BOT = new Bot(options)
+const bot = new Bot(options)
+const commandsPlugin = new CommandsPlugin()
 try {
   console.log('Connecting...')
-  await BOT.connect()
+  await commandsPlugin.readConfiguration()
+  commandsPlugin.attachToBot(bot)
+  await bot.connect()
 } catch(e) {
   throw new Error(
     `Error while trying to connect`,

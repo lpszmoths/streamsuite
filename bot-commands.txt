@@ -1,0 +1,14 @@
+[!about]
+response = page_of_moths is a US-based artist and web developer. His username was inspired by tarot cards, in which Pages are the squires/servants of their respective courts.
+
+[!commands]
+response = {{list-commands}}
+
+[!mothfact]
+response = {{pick-random-line mothfacts.txt}}
+
+[!pomodoro]
+response = I'm using the Pomodoro time management technique to help me be productive. See https://todoist.com/productivity-methods/pomodoro-technique
+
+[!timer]
+response = {{run-command !pomodoro}}

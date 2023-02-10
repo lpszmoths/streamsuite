@@ -31,6 +31,7 @@
       "useTabs": false,
       "lineWidth": 60,
       "indentWidth": 2,
+      "semiColons": false,
       "singleQuote": true,
       "proseWrap": "preserve"
     }

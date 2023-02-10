@@ -1,22 +1,10 @@
-import { config } from 'dotenv'
 import MetaBackend,
 {
   MetaBackendIncomingMessage,
-  MetaBackendOutgoingMessage,
   MetaBackendOptions
 } from './meta/meta-backend.ts'
-import MessageBroker from '../common/message-broker.ts'
-import { TwitchBackendOptions } from './twitch/twitch-backend.ts'
-
-export interface BotOptions {
-  twitchOptions?: TwitchBackendOptions
-}
-
-export interface BotMessage {
-  userId: string
-  username: string
-  message: string
-}
+import MessageBroker, { IAllChannelsMessage } from '../common/message-broker.ts'
+import { BotIncomingMessage, BotOptions, BotOutgoingMessage, IncomingMessageHandler } from './bot-types.ts'
 
 export default class Bot {
   metaBackend: MetaBackend
@@ -52,10 +40,11 @@ export default class Bot {
         message
       }: MetaBackendIncomingMessage) => {
         this.messageBroker.receiveOnChannel<
-          BotMessage
+          BotIncomingMessage
         >(
           `bot:${channel}`,
           {
+            channel,
             userId,
             username,
             message
@@ -67,7 +56,7 @@ export default class Bot {
     this.messageBroker.onMessageSent(
       ({
         channelId,
-        msg
+        msg: botOutgoingMessage
       }) => {
         if (
           !channelId.startsWith('bot:')
@@ -79,10 +68,29 @@ export default class Bot {
           /^bot:/,
           ''
         )
+        const {
+          message
+        } = botOutgoingMessage
         this.metaBackend.sendMessage({
           channel,
-          message: msg,
+          message,
         })
+      }
+    )
+  }
+
+  onIncomingMessage(
+    handler: IncomingMessageHandler
+  ) {
+    this.messageBroker.onMessageReceived(
+      async ({
+        channelId,
+        msg
+      }: IAllChannelsMessage) => {
+        if (channelId.match(/^bot:/)) {
+          const botMessage = msg as BotIncomingMessage
+          await handler(botMessage)
+        }
       }
     )
   }
@@ -91,13 +99,17 @@ export default class Bot {
     await this.metaBackend.connect()
   }
 
-  private async sendMessage(
+  sendMessage(
     channel: string,
     message: string
-  ): Promise<void> {
-    await this.metaBackend.sendMessage({
+  ): void {
+    const botOutgoingMessage: BotOutgoingMessage = {
       channel,
       message
-    })
+    }
+    this.messageBroker.sendToChannel(
+      `bot:${channel}`,
+      botOutgoingMessage
+    )
   }
 }
