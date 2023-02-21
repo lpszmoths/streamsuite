@@ -21,3 +21,20 @@ echo "TWITCH_USERNAME=mybotname" >> .env
 echo "TWITCH_OAUTH_TOKEN=0123abcd..." >> .env
 echo "TWITCH_CHANNELS=pageofmoths, channel2, channel3" >> .env
 ```
+
+## Usage
+
+Start the widget server:
+
+```
+npm run build
+npm run server
+```
+
+Start the bot:
+
+```
+npm run bot
+```
+
+The server and the bot are currently independent of one another.
