@@ -34,5 +34,5 @@ export interface PomodoroAction extends WidgetAction {
 }
 
 export const SHORT_BREAK_LENGTH = 5 * 60
-export const LONG_BREAK_LENGTH = 60 * 60
-export const POMODORO_LENGTH = 25 * 60
+export const LONG_BREAK_LENGTH = 30 * 60
+export const POMODORO_LENGTH = 60 * 60
