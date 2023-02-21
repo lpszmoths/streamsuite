@@ -7,8 +7,8 @@ export interface ParserState<T extends PlainObject> {
   currentItem: Partial<T> | null
 }
 
-const HEADER_REGEX: RegExp = /^\[([\w\-]+)\]+$/
-const ASSIGNMENT_REGEX: RegExp = /^([\w\-]+)\s?=\s?([\w\-]+)$/
+const HEADER_REGEX: RegExp = /^\[\s*([^\s]+)\s*\]+$/
+const ASSIGNMENT_REGEX: RegExp = /^([\w\-]+)\s*?=\s*?(.+)$/
 
 function commitCurrentItem<
   T extends PlainObject
@@ -39,7 +39,6 @@ export function parseIniFileContents<
   const fileLines: string[] = fileContents.split(/[\n\r]/)
   fileLines.forEach((line: string) => {
     line = line.trim()
-
     const headerMatches = line.match(HEADER_REGEX)
     const assignmentMatches = line.match(ASSIGNMENT_REGEX)
     if (headerMatches) {

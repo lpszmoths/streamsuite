@@ -1,4 +1,4 @@
-import { getHost, getPort } from '../util/env.ts'
+import { getHost, getPort } from '../../common/env.ts'
 
 const HOST: string = getHost()
 const PORT: number = getPort()
