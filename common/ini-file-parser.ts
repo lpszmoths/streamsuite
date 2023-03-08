@@ -52,11 +52,13 @@ export function parseIniFileContents<
     }
 
     else if(parserState.currentItemKey && assignmentMatches) {
-      const [
+      let [
         ,
         key,
         value
       ] = assignmentMatches
+      key = key.trim()
+      value = value.trim()
       parserState.currentItem![key as keyof T] = value as any
     }
   })

@@ -1,4 +1,4 @@
-import { loadCommandDefinitionsFromFile } from "./commands-file-loader-utils.ts";
+import { loadFile, loadCommandDefinitionsFromString } from "./commands-file-loader-utils.ts";
 import {
   CommandDefinition,
   CommandDefinitionDictionary
@@ -18,7 +18,12 @@ export default class CommandManager {
   }
 
   async loadCommandDefinitionsFromFile(filename: string) {
-    this.commandDefinitions = await loadCommandDefinitionsFromFile(filename)
+    var commandDefinitionsStr = await loadFile(filename)
+    await this.loadCommandDefinitionsFromString(commandDefinitionsStr)
+  }
+
+  async loadCommandDefinitionsFromString(str: string) {
+    this.commandDefinitions = await loadCommandDefinitionsFromString(str)
     for (let key in this.commandDefinitions) {
       console.log(`Loaded command ${key}`)
     }

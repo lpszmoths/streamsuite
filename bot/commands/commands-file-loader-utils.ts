@@ -5,11 +5,11 @@ const COMMAND_REGEX_PATTERN = /^[^\w]/
 const COMMAND_RESPONSE_NAME = 'response'
 const COMMAND_ROLE_NAME = 'role'
 
-export async function loadCommandDefinitionsFromFile(filename: string) {
+export async function loadFile(filename: string) {
   const decoder = new TextDecoder('utf-8')
   const fileContentsRaw: Uint8Array = await Deno.readFile(filename)
   const fileContentsStr: string = decoder.decode(fileContentsRaw)
-  return loadCommandDefinitionsFromString(fileContentsStr)
+  return fileContentsStr
 }
 
 export function loadCommandDefinitionsFromString(

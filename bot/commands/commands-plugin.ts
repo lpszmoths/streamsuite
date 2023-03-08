@@ -46,6 +46,10 @@ export default class CommandsPlugin {
     )
   }
 
+  async loadCommandDefinitionsFromString(str: String) {
+    this.commandManager.loadCommandDefinitionsFromFile
+  }
+
   async readConfiguration() {
     console.log(`Reading configuration from ${COMMAND_DEFINITIONS_FILE}`)
     await this.commandManager.loadCommandDefinitionsFromFile(COMMAND_DEFINITIONS_FILE)

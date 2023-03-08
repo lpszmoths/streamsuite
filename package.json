@@ -11,7 +11,7 @@
     "common:test": "deno test common --allow-env --allow-read",
     "server": "deno run --allow-net --allow-env --allow-read server/index.tsx",
     "server:test": "deno test server --allow-env --allow-read",
-    "test": "npm run common:test && npm run server:test"
+    "test": "npm run bot:test && npm run common:test && npm run server:test"
   },
   "repository": {
     "type": "git",
