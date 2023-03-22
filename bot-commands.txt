@@ -11,10 +11,10 @@ response = When page_of_moths' Surface Pro gets too hot, it rebels against its m
 response = {{list-commands}}
 
 [!lurk]
-response = {{username}}
+response = {{username}} 
 
 [!mothfact]
-response = {{pick-random-line mothfacts.txt}}
+response = {{#pick-random-line}}mothfacts.txt{{/pick-random-line}}
 
 [!pomodoro]
 response = I'm using the Pomodoro time management technique to help me be productive. See https://todoist.com/productivity-methods/pomodoro-technique

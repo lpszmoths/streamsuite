@@ -3,16 +3,25 @@ import CommandManager from "./command-manager.ts";
 import { extractCommandExecutionRequestFromBotMessage } from "./commands-input-parser.ts";
 import {
   CommandDefinition,
-  CommandExecutionRequest
+  CommandDefinitionDictionary,
+  CommandExecutionRequest,
+ICommandsPlugin
 } from "./commands-types.ts";
+import { render } from 'mustache'
+import { createTemplateFunctions, MustacheFunction } from "./commands-template-functions-factory.ts";
 
 export const COMMAND_DEFINITIONS_FILE = 'bot-commands.txt'
 
-export default class CommandsPlugin {
+export default class CommandsPlugin
+implements ICommandsPlugin {
   protected commandManager: CommandManager
+  protected templateFunctions: {
+    [key: string]: (() => MustacheFunction) | Function
+  }
 
   constructor() {
     this.commandManager = new CommandManager()
+    this.templateFunctions = createTemplateFunctions(this)
   }
 
   attachToBot(
@@ -46,6 +55,10 @@ export default class CommandsPlugin {
     )
   }
 
+  getCommandDefinitions(): CommandDefinitionDictionary {
+    return this.commandManager.getAllCommandDefinitions()
+  }
+
   async loadCommandDefinitionsFromString(str: String) {
     this.commandManager.loadCommandDefinitionsFromFile
   }
@@ -65,16 +78,25 @@ export default class CommandsPlugin {
       commandArgs
     }: CommandExecutionRequest
   ): Promise<void> {
-    const definition: CommandDefinition = (
+    console.log(`Running command ${commandName}`)
+    const {response}: CommandDefinition = (
       this.commandManager.getCommandDefinition(
         commandName
       )
+    )
+    const view = {
+      username,
+      ...this.templateFunctions,
+    }
+    const renderedResponse = render(
+      response,
+      view
     )
 
     // TODO parse command using mustache
     bot.sendMessage(
       channel,
-      definition.response
+      renderedResponse
     )
   }
 

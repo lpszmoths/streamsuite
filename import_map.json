@@ -5,6 +5,7 @@
     "dotenv": "https://deno.land/std@0.166.0/dotenv/mod.ts",
     "http": "https://deno.land/std@0.166.0/http/mod.ts",
     "mimetypes": "https://deno.land/x/mimetypes@v1.0.0/mod.ts",
+    "mustache": "https://deno.land/x/mustache_ts@v0.4.1.1/mustache.ts",
     "path": "https://deno.land/std@0.166.0/path/mod.ts",
     "preact": "https://esm.sh/preact@10.11.3",
     "preact/hooks": "https://esm.sh/preact@10.11.3/hooks",

@@ -20,3 +20,7 @@ export interface CommandExecutionContext {
   username: string
 
 }
+
+export interface ICommandsPlugin {
+  getCommandDefinitions: () => CommandDefinitionDictionary
+}

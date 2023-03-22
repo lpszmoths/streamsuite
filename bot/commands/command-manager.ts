@@ -17,6 +17,10 @@ export default class CommandManager {
     return this.commandDefinitions[commandName]
   }
 
+  getAllCommandDefinitions(): CommandDefinitionDictionary {
+    return this.commandDefinitions
+  }
+
   async loadCommandDefinitionsFromFile(filename: string) {
     var commandDefinitionsStr = await loadFile(filename)
     await this.loadCommandDefinitionsFromString(commandDefinitionsStr)
