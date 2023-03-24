@@ -53,6 +53,29 @@ extends Backend<
 
   async connect() {
     await this.client.connect()
+
+    this.client.on('join', (
+      channel: string,
+      username: string,
+      self: boolean
+    ) => {
+      if (self) {
+        return
+      }
+
+      console.log(`${username} has joined ${channel}`)
+    })
+    this.client.on('part', (
+      channel: string,
+      username: string,
+      self: boolean
+    ) => {
+      if (self) {
+        return
+      }
+
+      console.log(`${username} has left ${channel}`)
+    })
   }
 
   async sendMessage({

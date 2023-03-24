@@ -339,6 +339,7 @@
     "https://deno.land/std@0.175.0/types.d.ts": "220ed56662a0bd393ba5d124aa6ae2ad36a00d2fcbc0e8666a65f4606aaa9784",
     "https://deno.land/x/mimetypes@v1.0.0/mod.ts": "abd1ea614b32cfa7fd50b46f6e070617696664698b8a34935dc807f3035ad408",
     "https://deno.land/x/mimetypes@v1.0.0/src/mime.ts": "7cd7590eae6127dc1abfe710900fc749e94d5c715ffe8a148e59fe20ee21a9a5",
+    "https://deno.land/x/mustache_ts@v0.4.1.1/mustache.ts": "228a1138f55735e399b2232c87bcbb415ee462a067a10c71c14ae207c0b36a78",
     "https://esm.sh/preact-render-to-string@5.2.6": "b2f83ceb3137fc96a66c2c01b7d8872e02eeaabbb75a7a56a228d15ca4831bd4",
     "https://esm.sh/preact@10.11.3": "bb13c4579a68025fbfe7304c0c4dba6ec286c89bce5db830e56507851b208b80",
     "https://esm.sh/preact@10.11.3/hooks": "ffe990388d4ac9aaa4840e3f713b745dd9fc578cea119ebfe158e1d4dc8e347c",
